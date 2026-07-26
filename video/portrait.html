@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Estrich-Spezialist — Vorstellungsvideo (Hochformat)</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   Bühne: exakt 1080 × 1920. Jede Bewegung wird aus der Zeit t
+   berechnet (siehe seek()), niemals über CSS-Animationen —
+   nur so ist jedes gerenderte Einzelbild reproduzierbar.
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --ink:    #0e1218;
+  --ink-2:  #161c25;
+  --accent: #ff6a13;
+  --accent-l:#ffab6b;
+  --paper:  #ffffff;
+  --dim:    #9aa6b6;
+  --font: "Liberation Sans", Arial, Helvetica, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { background: #000; }
+
+#stage {
+  position: relative;
+  width: 1080px; height: 1920px;
+  overflow: hidden;
+  background: var(--ink);
+  font-family: var(--font);
+  color: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Hintergrundebenen ────────────────────────────────────── */
+.bg { position: absolute; inset: 0; overflow: hidden; opacity: 0; }
+.bg-media {
+  position: absolute; inset: -8%;
+  width: 116%; height: 116%;
+  object-fit: cover;
+  will-change: transform;
+}
+/* Platzhalter, solange kein Foto vorhanden ist */
+.bg-fallback { position: absolute; inset: 0; }
+.bg-fallback::after {
+  content: ""; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(46deg, rgba(255,255,255,.045) 0 2px, transparent 2px 16px);
+}
+.fb-1 { background: linear-gradient(155deg, #46566b 0%, #202a37 55%, #121821 100%); }
+.fb-2 { background: linear-gradient(155deg, #5c4630 0%, #2e2318 55%, #17120c 100%); }
+.fb-3 { background: linear-gradient(155deg, #365049 0%, #1d2c28 55%, #101815 100%); }
+.fb-4 { background: linear-gradient(155deg, #4a4459 0%, #26232f 55%, #14131a 100%); }
+
+/* Abdunkelung, damit Schrift immer lesbar bleibt */
+.scrim { position: absolute; inset: 0; }
+.scrim-full { background: linear-gradient(180deg, rgba(14,18,24,.46) 0%, rgba(14,18,24,.62) 55%, rgba(14,18,24,.86) 100%); }
+.scrim-soft { background: linear-gradient(180deg, rgba(14,18,24,.38) 0%, rgba(14,18,24,.66) 55%, rgba(14,18,24,.9) 100%); }
+
+/* Oranger Lichtschein */
+.bloom {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,106,19,.62), transparent 68%);
+  filter: blur(90px); opacity: 0;
+}
+
+/* ── Szenen ───────────────────────────────────────────────── */
+.scene {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 96px;
+  opacity: 0;
+}
+
+/* ── Bausteine ────────────────────────────────────────────── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 18px;
+  font-size: 34px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--accent);
+}
+.eyebrow::before {
+  content: ""; width: 56px; height: 5px; border-radius: 3px; background: var(--accent);
+}
+
+.wordmark { font-size: 124px; font-weight: 700; letter-spacing: -.035em; line-height: 1; }
+.wordmark span { font-weight: 400; color: var(--dim); }
+
+.line {
+  font-size: 138px; font-weight: 700; letter-spacing: -.045em; line-height: 1.02;
+  will-change: transform, opacity, filter;
+}
+.line.accent { color: var(--accent); }
+/* „Termingerecht." ist das längste Wort im Video und bestimmt die Größe. */
+#s2 { padding-inline: 76px; }
+
+.sub { font-size: 44px; font-weight: 400; color: var(--dim); line-height: 1.45; }
+
+.headline {
+  font-size: 96px; font-weight: 700; letter-spacing: -.035em; line-height: 1.08;
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 20px; }
+.chip {
+  padding: 22px 40px; border-radius: 999px;
+  background: rgba(255,255,255,.07);
+  border: 3px solid rgba(255,255,255,.16);
+  font-size: 47px; font-weight: 600; white-space: nowrap;
+  will-change: transform, opacity;
+}
+.chip.hot { background: rgba(255,106,19,.16); border-color: var(--accent); color: var(--accent-l); }
+
+.bignum {
+  font-size: 460px; font-weight: 700; letter-spacing: -.06em; line-height: .84;
+  color: var(--accent);
+  text-shadow: 0 0 90px rgba(255,106,19,.55);
+  will-change: transform, opacity;
+}
+
+.stars { display: flex; gap: 16px; }
+.star { font-size: 96px; color: #ffb020; line-height: 1; will-change: transform, opacity; }
+
+.quote {
+  font-size: 78px; font-weight: 400; line-height: 1.26; letter-spacing: -.025em;
+}
+.quote b { font-weight: 700; }
+
+.cite { font-size: 38px; color: var(--dim); }
+
+.places { display: flex; flex-wrap: wrap; gap: 14px 30px; font-size: 46px; color: var(--dim); }
+.places b { color: var(--paper); font-weight: 600; }
+
+.phone {
+  font-size: 126px; font-weight: 700; letter-spacing: -.03em;
+  color: var(--accent);
+  will-change: transform, opacity;
+}
+
+.cta-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 30px 60px; border-radius: 999px;
+  background: var(--accent); color: #fff;
+  font-size: 50px; font-weight: 700;
+  will-change: transform, opacity;
+}
+
+.stack { display: flex; flex-direction: column; gap: 34px; align-items: flex-start; }
+.stack-tight { gap: 18px; }
+
+/* Fortschrittsbalken unten */
+.progress {
+  position: absolute; left: 0; bottom: 0; height: 8px;
+  background: var(--accent); width: 0;
+}
+
+/* Sicherer Bereich für Plattform-Bedienelemente */
+.safe-bottom { position: absolute; left: 0; right: 0; bottom: 0; height: 190px; }
+</style>
+</head>
+<body>
+
+<div id="stage">
+
+  <!-- Hintergründe: nutzen dieselben Fotos wie die Website -->
+  <div class="bg" id="bg1">
+    <div class="bg-fallback fb-1"></div>
+    <img class="bg-media" id="bg1img" src="../assets/img/fliessestrich-wohnraum.jpg" alt="" onerror="this.remove()">
+    <div class="scrim scrim-full"></div>
+  </div>
+  <div class="bg" id="bg2">
+    <div class="bg-fallback fb-2"></div>
+    <img class="bg-media" id="bg2img" src="../assets/img/heizestrich-fussbodenheizung.jpg" alt="" onerror="this.remove()">
+    <div class="scrim scrim-full"></div>
+  </div>
+  <div class="bg" id="bg3">
+    <div class="bg-fallback fb-3"></div>
+    <img class="bg-media" id="bg3img" src="../assets/img/estrich-terrasse-carport.jpg" alt="" onerror="this.remove()">
+    <div class="scrim scrim-soft"></div>
+  </div>
+  <div class="bg" id="bg4">
+    <div class="bg-fallback fb-4"></div>
+    <img class="bg-media" id="bg4img" src="../assets/img/estrichpumpe-team.jpg" alt="" onerror="this.remove()">
+    <div class="scrim scrim-full"></div>
+  </div>
+
+  <div class="bloom" id="bloom" style="width:1180px;height:1180px;left:-140px;top:420px"></div>
+
+  <!-- ── 1 · Auftakt ─────────────────────────────────────── -->
+  <section class="scene" id="s1">
+    <div class="stack">
+      <p class="eyebrow" id="s1eyebrow">Fachbetrieb für Estricharbeiten</p>
+      <h1 class="wordmark" id="s1mark">Estrich<span>-Spezialist</span></h1>
+      <p class="sub" id="s1sub">Über 20 Jahre Erfahrung · Langerwehe und Umgebung</p>
+    </div>
+  </section>
+
+  <!-- ── 2 · Versprechen ─────────────────────────────────── -->
+  <section class="scene" id="s2">
+    <div class="stack stack-tight">
+      <div class="line" id="w1">Pünktlich.</div>
+      <div class="line accent" id="w2">Sauber.</div>
+      <div class="line" id="w3">Termingerecht.</div>
+    </div>
+  </section>
+
+  <!-- ── 3 · Leistungen ──────────────────────────────────── -->
+  <section class="scene" id="s3">
+    <div class="stack">
+      <h2 class="headline" id="s3head">Jeder Estrich,<br>den Ihr Bau braucht</h2>
+      <div class="chips" id="s3chips">
+        <span class="chip">Zementestrich</span>
+        <span class="chip">Fließestrich</span>
+        <span class="chip">Heizestrich</span>
+        <span class="chip">Dämmung &amp; Trittschall</span>
+        <span class="chip hot">Perlit-Dämmestrich</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 4 · Bewertung ───────────────────────────────────── -->
+  <section class="scene" id="s4">
+    <div class="stack">
+      <div class="bignum" id="s4num">5,0</div>
+      <div class="stars" id="s4stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        <span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="sub" id="s4sub" style="font-size:52px">bei Google — aus 8 Rezensionen.<br>Jede einzelne mit voller Punktzahl.</p>
+    </div>
+  </section>
+
+  <!-- ── 5 · Kundenstimme ────────────────────────────────── -->
+  <section class="scene" id="s5">
+    <div class="stack">
+      <p class="quote" id="s5quote">„Professionell von A bis Z!<br><b>Top Arbeit, zuverlässige Männer</b><br>und vor allem schnell!"</p>
+      <p class="cite" id="s5cite">Melissa Abaza · Google-Rezension</p>
+    </div>
+  </section>
+
+  <!-- ── 6 · Kontakt ─────────────────────────────────────── -->
+  <section class="scene" id="s6">
+    <div class="stack">
+      <p class="eyebrow" id="s6eyebrow">Jetzt anfragen</p>
+      <div class="places" id="s6places">
+        <b>Düren</b><b>Aachen</b><b>Köln</b><b>Eschweiler</b><b>Jülich</b><b>Eifel</b>
+      </div>
+      <div class="phone" id="s6phone">0170 7753751</div>
+      <div class="cta-pill" id="s6cta">Angebot in 24 Stunden</div>
+    </div>
+  </section>
+
+  <div class="safe-bottom"></div>
+  <div class="progress" id="progress"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   Zeitleiste. seek(t) setzt den Zustand für den Zeitpunkt t —
+   frei anspringbar, damit der Renderer Bild für Bild arbeiten
+   kann, ohne von der Rechengeschwindigkeit abzuhängen.
+   ═══════════════════════════════════════════════════════════ */
+
+const DURATION = 21.0;
+
+const SCENES = [
+  { el: 's1', bg: 'bg1', from: 0.0,  to: 3.4  },
+  { el: 's2', bg: null,  from: 3.4,  to: 7.0  },
+  { el: 's3', bg: 'bg2', from: 7.0,  to: 11.0 },
+  { el: 's4', bg: null,  from: 11.0, to: 14.4 },
+  { el: 's5', bg: 'bg3', from: 14.4, to: 17.4 },
+  { el: 's6', bg: 'bg4', from: 17.4, to: 21.0 }
+];
+
+const $ = id => document.getElementById(id);
+
+/* ── Hilfsfunktionen ──────────────────────────────────────── */
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+
+// Fortschritt 0…1 in einem Zeitfenster
+const at = (t, start, dur) => clamp((t - start) / dur);
+
+// Weiches Auslaufen — der Grundrhythmus des ganzen Videos
+const outCubic  = p => 1 - Math.pow(1 - p, 3);
+const outQuint  = p => 1 - Math.pow(1 - p, 5);
+// Leichtes Überschwingen für Elemente, die "aufschlagen" sollen
+const backOut   = p => { const c = 1.7; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+
+const lerp = (a, b, p) => a + (b - a) * p;
+
+/* Ein Element aus der Unschärfe scharfziehen und hochschieben. */
+function riseIn(el, p, { shift = 70, blur = 14, scale = 1 } = {}) {
+  const e = outQuint(p);
+  el.style.opacity   = String(p === 0 ? 0 : Math.min(1, p * 1.7));
+  el.style.filter    = blur ? `blur(${(1 - e) * blur}px)` : '';
+  el.style.transform = `translateY(${(1 - e) * shift}px) scale(${lerp(scale, 1, e)})`;
+}
+
+/* Sanftes Ausblenden am Szenenende. */
+function fadeOut(el, p, shift = -40) {
+  if (p <= 0) return;
+  const e = outCubic(p);
+  el.style.opacity = String(1 - e);
+  const cur = el.style.transform || '';
+  el.style.transform = cur + ` translateY(${e * shift}px)`;
+}
+
+/* Ken-Burns-Fahrt über das Hintergrundbild. */
+function kenBurns(bgId, p, dir = 1) {
+  const img = $(bgId + 'img');
+  if (!img) return;
+  const s = lerp(1.0, 1.14, p);
+  img.style.transform = `scale(${s}) translate(${dir * p * 26}px, ${-p * 18}px)`;
+}
+
+/* ── Hauptfunktion ────────────────────────────────────────── */
+function seek(t) {
+  t = clamp(t, 0, DURATION);
+
+  // Alle Szenen zurücksetzen
+  SCENES.forEach(s => {
+    const el = $(s.el);
+    el.style.opacity = '0';
+    el.style.transform = '';
+    el.style.filter = '';
+  });
+  ['bg1', 'bg2', 'bg3', 'bg4'].forEach(b => { $(b).style.opacity = '0'; });
+
+  const scene = SCENES.find(s => t >= s.from && t < s.to) || SCENES[SCENES.length - 1];
+  const local = t - scene.from;
+  const span  = scene.to - scene.from;
+  const outP  = at(t, scene.to - 0.42, 0.42);   // letzte 0,42 s = Abgang
+
+  $(scene.el).style.opacity = '1';
+
+  if (scene.bg) {
+    const bg = $(scene.bg);
+    bg.style.opacity = String(clamp(at(t, scene.from, 0.5)) * (1 - outP * 0.85));
+    kenBurns(scene.bg, local / span, scene.el === 's3' ? -1 : 1);
+  }
+
+  // Lichtschein pulsiert dezent über die ganze Länge
+  $('bloom').style.opacity = String(0.5 + Math.sin(t * 0.7) * 0.18);
+
+  /* — 1 · Auftakt — */
+  if (scene.el === 's1') {
+    riseIn($('s1eyebrow'), at(t, 0.15, 0.7), { shift: 34, blur: 8 });
+    riseIn($('s1mark'),    at(t, 0.42, 1.0), { shift: 92, blur: 18, scale: 0.94 });
+    riseIn($('s1sub'),     at(t, 0.95, 0.8), { shift: 44, blur: 8 });
+    fadeOut($(scene.el), outP);
+  }
+
+  /* — 2 · Versprechen: drei Wörter schlagen nacheinander auf — */
+  if (scene.el === 's2') {
+    [['w1', 0.10], ['w2', 0.42], ['w3', 0.74]].forEach(([id, delay]) => {
+      const p = at(local, delay, 0.5);
+      const e = backOut(p);
+      const el = $(id);
+      el.style.opacity   = String(clamp(p * 2.2));
+      el.style.filter    = `blur(${(1 - clamp(p * 1.6)) * 16}px)`;
+      el.style.transform = `translateX(${(1 - e) * -110}px) scale(${lerp(0.9, 1, e)})`;
+    });
+    fadeOut($(scene.el), outP);
+  }
+
+  /* — 3 · Leistungen: Chips gestaffelt — */
+  if (scene.el === 's3') {
+    riseIn($('s3head'), at(local, 0.1, 0.8), { shift: 64, blur: 14 });
+    const chips = $('s3chips').children;
+    for (let i = 0; i < chips.length; i++) {
+      const p = at(local, 0.75 + i * 0.17, 0.5);
+      const e = backOut(p);
+      chips[i].style.opacity   = String(clamp(p * 2));
+      chips[i].style.transform = `translateY(${(1 - e) * 46}px) scale(${lerp(0.8, 1, e)})`;
+    }
+    fadeOut($(scene.el), outP);
+  }
+
+  /* — 4 · Bewertung: Zahl schlägt auf, Sterne zünden nacheinander — */
+  if (scene.el === 's4') {
+    const p = at(local, 0.08, 0.75);
+    const e = backOut(p);
+    const num = $('s4num');
+    num.style.opacity   = String(clamp(p * 2.2));
+    num.style.transform = `scale(${lerp(0.62, 1, e)})`;
+    num.style.filter    = `blur(${(1 - clamp(p * 1.8)) * 26}px)`;
+
+    const stars = $('s4stars').children;
+    for (let i = 0; i < stars.length; i++) {
+      const sp = at(local, 0.7 + i * 0.11, 0.28);
+      const se = backOut(sp);
+      stars[i].style.opacity   = String(sp);
+      stars[i].style.transform = `scale(${lerp(0.3, 1, se)})`;
+    }
+    riseIn($('s4sub'), at(local, 1.35, 0.7), { shift: 40, blur: 8 });
+    fadeOut($(scene.el), outP);
+  }
+
+  /* — 5 · Kundenstimme — */
+  if (scene.el === 's5') {
+    riseIn($('s5quote'), at(local, 0.1, 0.95), { shift: 70, blur: 16 });
+    riseIn($('s5cite'),  at(local, 0.85, 0.7), { shift: 34, blur: 8 });
+    fadeOut($(scene.el), outP);
+  }
+
+  /* — 6 · Kontakt — */
+  if (scene.el === 's6') {
+    riseIn($('s6eyebrow'), at(local, 0.1,  0.6), { shift: 30, blur: 8 });
+    riseIn($('s6places'),  at(local, 0.42, 0.7), { shift: 40, blur: 10 });
+
+    const p = at(local, 0.85, 0.75);
+    const e = backOut(p);
+    const ph = $('s6phone');
+    ph.style.opacity   = String(clamp(p * 2));
+    ph.style.transform = `scale(${lerp(0.78, 1, e)})`;
+    ph.style.filter    = `blur(${(1 - clamp(p * 1.8)) * 18}px)`;
+
+    riseIn($('s6cta'), at(local, 1.5, 0.6), { shift: 36, blur: 8, scale: 0.9 });
+    // Letzte Szene läuft aus, statt hart zu schneiden
+    const tail = at(t, DURATION - 0.5, 0.5);
+    $(scene.el).style.opacity = String(1 - tail);
+  }
+
+  $('progress').style.width = (t / DURATION * 1080) + 'px';
+}
+
+window.__seek = seek;
+window.__DURATION = DURATION;
+
+// Vorschau im Browser: normal abspielen. Der Renderer ruft stattdessen __seek().
+if (!location.search.includes('render')) {
+  const t0 = performance.now();
+  (function loop(now) {
+    seek(((now - t0) / 1000) % DURATION);
+    requestAnimationFrame(loop);
+  })(t0);
+} else {
+  seek(0);
+}
+</script>
+</body>
+</html>
