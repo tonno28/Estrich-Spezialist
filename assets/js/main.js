@@ -13,7 +13,7 @@
     // Solange leer, öffnet das Formular das E-Mail-Programm des Besuchers.
     formEndpoint: '',
     // Empfängeradresse für den E-Mail-Fallback.
-    mailTo: 'info@estrich-spezialist.de'
+    mailTo: 'estrichspezialist@gmx.de'
   };
 
   var $  = function (s, c) { return (c || document).querySelector(s); };

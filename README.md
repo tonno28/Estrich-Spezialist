@@ -40,12 +40,13 @@ Alternativ genügt ein Doppelklick auf `index.html`.
 In `impressum.html` und `datenschutz.html` alle mit `[…]` markierten Stellen ersetzen.
 Ohne vollständiges Impressum besteht Abmahnrisiko.
 
-### 2. Domain und E-Mail eintragen
+### 2. Domain eintragen
 
-Aktuell ist überall `www.estrich-spezialist.de` bzw. `info@estrich-spezialist.de` hinterlegt.
-Bei abweichender Domain in allen Dateien ersetzen — betroffen sind:
-`index.html` (canonical, Open Graph, JSON-LD), `robots.txt`, `sitemap.xml`,
-`assets/js/main.js` (`CONFIG.mailTo`).
+Die E-Mail-Adresse `estrichspezialist@gmx.de` ist bestätigt und überall hinterlegt.
+
+Als Domain ist noch `www.estrich-spezialist.de` angenommen. Bei abweichender Domain in allen
+Dateien ersetzen — betroffen sind `index.html` (canonical, Open Graph, JSON-LD), `robots.txt`
+und `sitemap.xml`.
 
 ### 3. Kontaktformular scharf schalten
 
@@ -57,7 +58,7 @@ Für echten Serverversand in `assets/js/main.js` ganz oben eintragen:
 ```js
 var CONFIG = {
   formEndpoint: 'https://formspree.io/f/XXXXXXXX',   // z. B. Formspree, Netlify Forms
-  mailTo: 'info@estrich-spezialist.de'
+  mailTo: 'estrichspezialist@gmx.de'
 };
 ```
 
