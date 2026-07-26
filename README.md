@@ -67,25 +67,29 @@ Sobald ein externer Dienst genutzt wird, muss er in `datenschutz.html` ergänzt 
 
 ### 4. Fotos einsetzen
 
-Im Google-Unternehmensprofil liegen bereits **49 Fotos**. Diese nach `assets/img/` kopieren und in
-`index.html` in der Sektion `#referenzen` die Platzhalter ersetzen:
+Die Galerie ist bereits verdrahtet — **es genügt, die Dateien unter genau diesen Namen in
+`assets/img/` abzulegen.** Kein Codeeingriff nötig. Solange eine Datei fehlt, zeigt die Kachel
+automatisch den Platzhalter „Foto folgt"; sobald sie da ist, erscheint das Foto.
 
-```html
-<!-- vorher -->
-<figure class="shot"><span class="ph ph-a"></span><figcaption>…</figcaption></figure>
+| Dateiname | Motiv |
+|---|---|
+| `fliessestrich-wohnraum.jpg` | Fertiger Fließestrich im Raum, Randdämmstreifen sichtbar |
+| `heizestrich-fussbodenheizung.jpg` | Verlegte Heizrohre vor dem Verguss |
+| `daemmschuettung-altbau.jpg` | Ausgeglichene Dämmschüttung auf dem Rohboden |
+| `estrich-garage.jpg` | Fertige Fläche in der Garage, Blick zum Tor |
+| `estrich-terrasse-carport.jpg` | Außenfläche unter Carport |
+| `estrichpumpe-team.jpg` | Estrichpumpe und Firmenfahrzeug an der Baustelle |
 
-<!-- nachher -->
-<figure class="shot">
-  <img src="assets/img/referenz-01.jpg"
-       alt="Frisch verlegter Fließestrich in einem Neubau in Düren"
-       width="800" height="600" loading="lazy">
-  <figcaption>Fließestrich über Fußbodenheizung — Neubau, Kreis Düren</figcaption>
-</figure>
-```
+Danach noch zwei Handgriffe in `index.html`, Sektion `#referenzen`:
 
-Bilder vorher auf max. 1600 px Breite verkleinern und als WebP oder JPEG (Qualität ~80)
-speichern. Der `alt`-Text sollte beschreiben, was zu sehen ist, und den Ort nennen — das
-zahlt direkt auf die lokale Sichtbarkeit ein.
+1. **Ortsangabe in die `<figcaption>` ergänzen** — z. B. „Fließestrich, fertig abgezogen — Neubau
+   in Düren". Die Bildunterschriften sind bewusst ohne Ort formuliert, weil erfundene Ortsangaben
+   schlimmer sind als gar keine. Echte Orte sind ein realer Hebel für die lokale Sichtbarkeit.
+2. **`width`/`height` auf die tatsächlichen Pixelmaße setzen**, damit beim Laden nichts springt.
+
+Bilder vorher auf max. 1600 px Breite verkleinern und als JPEG (Qualität ~80) oder WebP
+speichern. Am besten die Originale vom Rechner oder Handy verwenden — die Fassungen im
+Google-Profil sind komprimiert und beschnitten.
 
 ### 5. Google-Unternehmensprofil aktualisieren
 

@@ -446,18 +446,61 @@
       </header>
 
       <!--
-        ANLEITUNG FOTOS:
-        Die 49 Bilder aus dem Google-Unternehmensprofil nach assets/img/ kopieren,
-        dann jeweils <span class="ph"></span> durch <img> ersetzen, z. B.:
-        <img src="assets/img/referenz-01.jpg" alt="Frisch verlegter Fließestrich in einem Neubau in Düren" width="800" height="600" loading="lazy">
+        FOTOS EINSETZEN:
+        Die Dateien einfach unter genau diesen Namen in assets/img/ ablegen — mehr ist
+        nicht zu tun. Solange eine Datei fehlt, zeigt die Kachel automatisch den
+        Platzhalter; sobald sie da ist, erscheint das Foto.
+
+        Danach nur noch zwei Dinge von Hand:
+        1. Ortsangabe in die <figcaption> ergänzen (z. B. „— Neubau in Düren").
+           Das ist ein echter Hebel für die lokale Sichtbarkeit.
+        2. width/height auf die tatsächlichen Pixelmaße setzen, damit beim Laden
+           nichts springt.
       -->
       <div class="gallery">
-        <figure class="shot"><span class="ph ph-a" aria-hidden="true"></span><figcaption>Fließestrich über Fußbodenheizung — Neubau, Kreis Düren</figcaption></figure>
-        <figure class="shot"><span class="ph ph-b" aria-hidden="true"></span><figcaption>Zementestrich Garage mit Gefälle — Eschweiler</figcaption></figure>
-        <figure class="shot"><span class="ph ph-c" aria-hidden="true"></span><figcaption>Perlit-Dämmschüttung im Altbau — Aachen</figcaption></figure>
-        <figure class="shot"><span class="ph ph-d" aria-hidden="true"></span><figcaption>Trittschalldämmung Mehrfamilienhaus — Köln</figcaption></figure>
-        <figure class="shot"><span class="ph ph-e" aria-hidden="true"></span><figcaption>Großfläche Gewerbehalle — Eifel</figcaption></figure>
-        <figure class="shot"><span class="ph ph-f" aria-hidden="true"></span><figcaption>Terrassenestrich mit Fugenschnitt — Langerwehe</figcaption></figure>
+
+        <figure class="shot">
+          <span class="ph ph-a" aria-hidden="true"></span>
+          <img src="assets/img/fliessestrich-wohnraum.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
+               alt="Fertig verlegter, geschliffener Fließestrich in einem Wohnraum, blauer Randdämmstreifen an den Wänden">
+          <figcaption>Fließestrich, fertig abgezogen — Randdämmstreifen sauber gesetzt</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <span class="ph ph-b" aria-hidden="true"></span>
+          <img src="assets/img/heizestrich-fussbodenheizung.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
+               alt="Fußbodenheizung mit verlegten Heizrohren, vorbereitet für den Heizestrich">
+          <figcaption>Heizestrich: Rohre verlegt, bereit für den Verguss</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <span class="ph ph-c" aria-hidden="true"></span>
+          <img src="assets/img/daemmschuettung-altbau.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
+               alt="Ausgeglichene Dämmschüttung auf dem Rohboden eines Altbauzimmers vor dem Estricheinbau">
+          <figcaption>Dämmschüttung im Altbau — Untergrund ausgeglichen und gedämmt</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <span class="ph ph-d" aria-hidden="true"></span>
+          <img src="assets/img/estrich-garage.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
+               alt="Fertiger Estrich in einer Garage im Rohbau, Blick zum Garagentor">
+          <figcaption>Garage: belastbare Fläche, eben bis in die Ecken</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <span class="ph ph-e" aria-hidden="true"></span>
+          <img src="assets/img/estrich-terrasse-carport.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
+               alt="Fertige Estrichfläche unter einem Carport mit Stahlkonstruktion, Blick über die Fläche zum Sichtschutz">
+          <figcaption>Terrasse unter Carport — Außenfläche mit Gefälle</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <span class="ph ph-f" aria-hidden="true"></span>
+          <img src="assets/img/estrichpumpe-team.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
+               alt="Estrichpumpe und Firmenfahrzeug des Estrich-Spezialist vor einer Baustelle">
+          <figcaption>Eigene Technik, eigenes Team — direkt an der Baustelle</figcaption>
+        </figure>
+
       </div>
     </div>
   </section>

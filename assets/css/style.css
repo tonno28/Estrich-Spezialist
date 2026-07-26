@@ -489,9 +489,17 @@ input[type="range"]::-moz-range-thumb {
   display: grid; gap: 18px;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
-.shot { margin: 0; }
+/* Platzhalter und Foto liegen in derselben Rasterzelle: Solange die Bilddatei
+   fehlt, entfernt sich das <img> selbst (onerror) und der Platzhalter bleibt
+   sichtbar. Sobald die Datei da ist, deckt das Foto den Platzhalter ab. */
+.shot { margin: 0; display: grid; }
+.shot .ph, .shot img { grid-area: 1 / 1; }
+/* .ph ist positioniert und läge sonst über dem Foto — das Bild muss darüber malen. */
+.shot img { position: relative; z-index: 1; }
+.shot figcaption { grid-area: 2 / 1; }
 .shot img, .shot .ph {
-  display: block; width: 100%; aspect-ratio: 4 / 3;
+  /* height:auto hebt das HTML-height-Attribut auf, sonst gewinnt es über aspect-ratio */
+  display: block; width: 100%; height: auto; aspect-ratio: 4 / 3;
   border-radius: var(--r); border: 1px solid var(--line);
   object-fit: cover; box-shadow: var(--shadow);
 }
