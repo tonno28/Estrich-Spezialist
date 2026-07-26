@@ -9,6 +9,7 @@
      node video/render.mjs --fps 60 --out clip.mp4
      node video/render.mjs --page landscape.html --w 1920 --h 1080
      node video/render.mjs --audio stimme.mp3     # Sprecherstimme dazumischen
+     node video/render.mjs --music track.mp3      # Musik, wird ein- und ausgeblendet
    ═══════════════════════════════════════════════════════════ */
 
 import { chromium } from 'playwright';
@@ -31,6 +32,9 @@ const WIDTH  = parseInt(arg('w', '1080'), 10);
 const HEIGHT = parseInt(arg('h', '1920'), 10);
 const FPS    = parseInt(arg('fps', '30'), 10);
 const AUDIO  = arg('audio', null);
+// Musik wird leiser gemischt und am Ende ausgeblendet, Sprache läuft unverändert durch.
+const MUSIC  = arg('music', null);
+const MUSIC_GAIN = parseFloat(arg('music-gain', '0.55'));
 const OUT    = path.resolve(HERE, arg('out', PAGE.replace(/\.html$/, '') + '.mp4'));
 
 const CHROMIUM = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium';
@@ -94,7 +98,10 @@ const args = [
   '-y', '-hide_banner', '-loglevel', 'error',
   '-f', 'image2pipe', '-framerate', String(FPS), '-i', 'pipe:0'
 ];
-if (AUDIO) args.push('-i', path.resolve(HERE, AUDIO));
+// Tonspuren als weitere Eingänge; Reihenfolge bestimmt die Indizes im Filtergraph.
+const tracks = [];
+if (AUDIO) { args.push('-i', path.resolve(HERE, AUDIO)); tracks.push('audio'); }
+if (MUSIC) { args.push('-i', path.resolve(HERE, MUSIC)); tracks.push('music'); }
 
 args.push(
   '-c:v', 'libx264', '-preset', 'slow', '-crf', '18',
@@ -104,8 +111,37 @@ args.push(
   '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2'
 );
 
-if (AUDIO) {
-  args.push('-c:a', 'aac', '-b:a', '192k', '-shortest');
+if (tracks.length) {
+  const fadeStart = Math.max(0, duration - 1.5);
+  const parts = [];
+
+  tracks.forEach((kind, i) => {
+    const src = i + 1;                                   // Eingang 0 ist das Bild
+    if (kind === 'music') {
+      // Musik: leiser, sanft ein, am Ende ausblenden, auf Videolänge kürzen
+      parts.push(
+        `[${src}:a]volume=${MUSIC_GAIN},` +
+        `afade=t=in:st=0:d=1.2,` +
+        `afade=t=out:st=${fadeStart.toFixed(2)}:d=1.5,` +
+        `atrim=0:${duration.toFixed(3)},asetpts=N/SR/TB[m]`
+      );
+    } else {
+      parts.push(`[${src}:a]afade=t=out:st=${fadeStart.toFixed(2)}:d=1.0[v]`);
+    }
+  });
+
+  // apad füllt eine zu kurze Tonspur mit Stille auf. Zusammen mit -shortest
+  // bestimmt damit immer das Bild die Länge — sonst würde eine kürzere
+  // Sprachaufnahme das Video hinten abschneiden.
+  const labels = tracks.map(k => (k === 'music' ? '[m]' : '[v]')).join('');
+  const mix = tracks.length > 1
+    ? `${labels}amix=inputs=2:duration=longest:dropout_transition=0,apad[out]`
+    : `${labels}apad[out]`;
+
+  args.push('-filter_complex', parts.join(';') + ';' + mix, '-map', '0:v', '-map', '[out]');
+  // Feste Ausgabelänge statt -shortest: apad erzeugt einen endlosen Tonstrom,
+  // den -shortest im Filtergraph nicht zuverlässig beendet.
+  args.push('-c:a', 'aac', '-b:a', '192k', '-t', duration.toFixed(3));
 } else {
   args.push('-an');
 }
