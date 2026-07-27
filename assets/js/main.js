@@ -87,6 +87,7 @@
   var buildup = $('#buildup');
   if (buildup) {
     var layers  = $$('[data-step]', buildup);
+    var photos  = $$('[data-photo]', buildup);
     var caps    = $$('.buildup-cap li', buildup);
     var dotWrap = $('.buildup-dots', buildup);
     var TOTAL   = caps.length;
@@ -119,6 +120,11 @@
         el.classList.toggle('is-on', parseInt(el.getAttribute('data-step'), 10) <= n);
       });
       caps.forEach(function (el, i) { el.classList.toggle('is-on', i === n); });
+      // Fehlende Bilddateien entfernen sich per onerror selbst — dann bleibt
+      // der Platzhalter darunter stehen.
+      photos.forEach(function (el) {
+        el.classList.toggle('is-on', parseInt(el.getAttribute('data-photo'), 10) === n);
+      });
       dots.forEach(function (el, i) {
         el.classList.toggle('is-on', i === n);
         el.setAttribute('aria-selected', i === n ? 'true' : 'false');
