@@ -309,12 +309,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
   background: var(--tint); color: var(--ink); border-radius: 14px;
 }
 .card-ico svg { width: 28px; height: 28px; }
-.card-accent .card-ico { background: var(--accent-100); color: var(--accent-600); }
-.card-accent::before {
-  content: ""; position: absolute; inset: -1px -1px auto; height: 4px;
-  background: linear-gradient(90deg, var(--accent), #ffab6b);
-  border-radius: var(--r-lg) var(--r-lg) 0 0;
-}
 
 .card h3 { font-size: 21px; margin-bottom: 10px; }
 .card > p { color: var(--text-soft); font-size: 16px; margin-bottom: 20px; }
