@@ -373,46 +373,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .step h3 { font-size: 20px; margin-bottom: 9px; }
 .step p { color: var(--text-soft); font-size: 15.5px; }
 
-/* ── Rechner ──────────────────────────────────────────────── */
-.calc {
-  display: grid; gap: 24px;
-  grid-template-columns: 1.15fr .85fr;
-  align-items: start;
-}
-/* Grid- und Flex-Kinder dürfen unter ihre Inhaltsbreite schrumpfen —
+/* Grid- und Flex-Kinder duerfen unter ihre Inhaltsbreite schrumpfen —
    sonst sprengen lange <option>-Texte auf Mobil das Layout. */
-.calc > *, .gebiet-inner > *, .kontakt-inner > *, .form .row > *, .field > * { min-width: 0; }
-
-.calc-form {
-  display: grid; gap: 22px;
-  padding: 32px;
-  background: var(--paper); border: 1px solid var(--line);
-  border-radius: var(--r-lg); box-shadow: var(--shadow);
-}
-
-.calc-out {
-  padding: 32px;
-  background: var(--ink); color: var(--on-dark);
-  border-radius: var(--r-lg); box-shadow: var(--shadow-lg);
-}
-.calc-out h3 { font-size: 19px; color: #fff; margin-bottom: 18px; }
-
-.calc-results { margin-bottom: 18px; }
-.calc-results > div {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
-  padding: 11px 0; border-bottom: 1px solid var(--line-dark);
-}
-.calc-results dt { font-size: 15px; color: var(--on-dark-soft); }
-.calc-results dd { font-size: 15px; color: #fff; font-weight: 600; }
-.calc-results b { font-size: 19px; font-weight: 800; }
-.calc-results .highlight {
-  margin-top: 6px; padding: 14px 16px; border: 0;
-  background: rgba(255,106,19,.14); border-radius: 12px;
-}
-.calc-results .highlight dt { color: #ffc39b; font-weight: 600; }
-.calc-results .highlight b { color: var(--accent); font-size: 24px; }
-
-.calc-note { font-size: 13.5px; color: var(--text-dim); line-height: 1.55; margin-bottom: 20px; }
+.gebiet-inner > *, .kontakt-inner > *, .form .row > *, .field > * { min-width: 0; }
 
 /* ── Formularfelder (global) ──────────────────────────────── */
 .field { display: grid; gap: 7px; }
@@ -457,7 +420,6 @@ input[type="range"]::-moz-range-thumb {
   background: var(--accent); border: 4px solid #fff;
   box-shadow: 0 2px 8px rgba(16,24,40,.28); cursor: grab;
 }
-#calc-thick-out { font-weight: 800; color: var(--accent-600); }
 
 .err { font-size: 13.5px; color: #d92d20; min-height: 0; }
 .err:empty { display: none; }
@@ -486,43 +448,25 @@ input[type="range"]::-moz-range-thumb {
 
 /* ── Galerie ──────────────────────────────────────────────── */
 .gallery {
-  display: grid; gap: 18px;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: grid; gap: 16px;
+  /* Die Fotos stammen aus dem Google-Profil und sind nur rund 140 px breit.
+     Feste Spaltenzahl statt auto-fit und eine Maximalbreite halten die
+     Kacheln bei etwa 190 px — darueber wuerde die Hochrechnung sichtbar.
+     Sobald die Originale vorliegen, darf max-width raus. */
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 840px;
 }
-/* Platzhalter und Foto liegen in derselben Rasterzelle: Solange die Bilddatei
-   fehlt, entfernt sich das <img> selbst (onerror) und der Platzhalter bleibt
-   sichtbar. Sobald die Datei da ist, deckt das Foto den Platzhalter ab. */
-.shot { margin: 0; display: grid; }
-.shot .ph, .shot img { grid-area: 1 / 1; }
-/* .ph ist positioniert und läge sonst über dem Foto — das Bild muss darüber malen. */
-.shot img { position: relative; z-index: 1; }
-.shot figcaption { grid-area: 2 / 1; }
-.shot img, .shot .ph {
-  /* height:auto hebt das HTML-height-Attribut auf, sonst gewinnt es über aspect-ratio */
+@media (min-width: 700px) {
+  .gallery { grid-template-columns: repeat(4, 1fr); }
+}
+.shot { margin: 0; }
+.shot img {
   display: block; width: 100%; height: auto; aspect-ratio: 4 / 3;
   border-radius: var(--r); border: 1px solid var(--line);
-  object-fit: cover; box-shadow: var(--shadow);
+  object-fit: cover; background: var(--ink-3);
+  box-shadow: var(--shadow);
 }
-.shot figcaption { margin-top: 11px; font-size: 14.5px; color: var(--text-soft); }
-
-/* Platzhalter, bis echte Fotos eingesetzt sind */
-.ph { position: relative; overflow: hidden; background: var(--ink-3); }
-.ph::before {
-  content: ""; position: absolute; inset: 0;
-  background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.05) 0 2px, transparent 2px 12px);
-}
-.ph::after {
-  content: "Foto folgt"; position: absolute; inset: 0;
-  display: grid; place-items: center;
-  font-size: 13px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase;
-  color: rgba(255,255,255,.4);
-}
-.ph-a { background: linear-gradient(135deg, #303a49, #1d2531); }
-.ph-b { background: linear-gradient(135deg, #3b3227, #241d16); }
-.ph-c { background: linear-gradient(135deg, #2c3a3a, #182323); }
-.ph-d { background: linear-gradient(135deg, #333a4a, #1f2430); }
-.ph-e { background: linear-gradient(135deg, #3a3340, #221e28); }
-.ph-f { background: linear-gradient(135deg, #2e3a33, #1b241f); }
+.shot figcaption { margin-top: 10px; font-size: 13.5px; line-height: 1.45; color: var(--text-soft); }
 
 /* ── Einsatzgebiet ────────────────────────────────────────── */
 .gebiet-inner {
@@ -673,7 +617,7 @@ input[type="range"]::-moz-range-thumb {
 
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .calc, .gebiet-inner, .kontakt-inner { grid-template-columns: 1fr; }
+  .gebiet-inner, .kontakt-inner { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-brand { grid-column: 1 / -1; }
 }
@@ -704,7 +648,7 @@ input[type="range"]::-moz-range-thumb {
   .hero-cta .btn { width: 100%; }
   .hero-chips li { font-size: 13.5px; padding: 8px 14px; }
   .card { padding: 26px 22px 22px; }
-  .calc-form, .calc-out, .contact-card { padding: 24px 20px; }
+  .contact-card { padding: 24px 20px; }
   .sticky-cta { display: flex; }
   .site-footer { padding-bottom: 78px; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }

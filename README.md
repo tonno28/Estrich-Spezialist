@@ -10,7 +10,7 @@ Die zugrunde liegende Marktanalyse steht in [`WETTBEWERBSANALYSE.md`](WETTBEWERB
 ## Aufbau
 
 ```
-index.html            Startseite (Hero, Leistungen, Warum wir, Ablauf, Rechner,
+index.html            Startseite (Hero, Leistungen, Warum wir, Ablauf,
                       Bewertungen, Referenzen, Einsatzgebiet, FAQ, Kontakt)
 impressum.html        Impressum — Pflichtangaben noch ausfüllen
 datenschutz.html      Datenschutzerklärung — Angaben noch ausfüllen
@@ -18,7 +18,7 @@ datenschutz.html      Datenschutzerklärung — Angaben noch ausfüllen
 robots.txt            Suchmaschinen-Freigabe + Sitemap-Verweis
 sitemap.xml           XML-Sitemap
 assets/css/style.css  Gesamtes Design
-assets/js/main.js     Navigation, Estrich-Rechner, Formular
+assets/js/main.js     Navigation und Anfrageformular
 assets/img/           Bilder — hier die Fotos ablegen
 ```
 
@@ -65,31 +65,33 @@ var CONFIG = {
 Sobald ein externer Dienst genutzt wird, muss er in `datenschutz.html` ergänzt werden
 (Anbieter, Sitz, Auftragsverarbeitungsvertrag).
 
-### 4. Fotos einsetzen
+### 4. Fotos ersetzen
 
-Die Galerie ist bereits verdrahtet — **es genügt, die Dateien unter genau diesen Namen in
-`assets/img/` abzulegen.** Kein Codeeingriff nötig. Solange eine Datei fehlt, zeigt die Kachel
-automatisch den Platzhalter „Foto folgt"; sobald sie da ist, erscheint das Foto.
+Die Galerie zeigt acht Fotos aus dem Google-Unternehmensprofil. **Diese Dateien sind
+Vorschaubilder mit rund 140 px Kantenlänge** — deshalb sind die Kacheln bewusst klein gehalten.
+Sobald die Originale vom Rechner oder Handy vorliegen, gleichnamig überschreiben:
 
-| Dateiname | Motiv |
+| Datei | Motiv |
 |---|---|
-| `fliessestrich-wohnraum.jpg` | Fertiger Fließestrich im Raum, Randdämmstreifen sichtbar |
-| `heizestrich-fussbodenheizung.jpg` | Verlegte Heizrohre vor dem Verguss |
-| `daemmschuettung-altbau.jpg` | Ausgeglichene Dämmschüttung auf dem Rohboden |
-| `estrich-garage.jpg` | Fertige Fläche in der Garage, Blick zum Tor |
-| `estrich-terrasse-carport.jpg` | Außenfläche unter Carport |
-| `estrichpumpe-team.jpg` | Estrichpumpe und Firmenfahrzeug an der Baustelle |
+| `fliessestrich-spiegelnde-flaeche.jpg` | Frischer Fließestrich, spiegelglatte Fläche |
+| `fussbodenheizung-heizrohre.jpg` | Heizrohre in Schneckenform, vor dem Verguss |
+| `estrich-flur-randdaemmstreifen.jpg` | Flur mit blauem Randdämmstreifen |
+| `estrich-rohbau-wohnraum.jpg` | Wohnraum im Rohbau, Fläche fertig |
+| `estrich-dachgeschoss.jpg` | Dachgeschoss unter Holzbalkendecke |
+| `estrich-garage.jpg` | Garage mit Klinkerfassade |
+| `estrichpumpe-anhaenger.jpg` | Estrichpumpe auf dem Anhänger |
+| `firmenwagen-baustelle.jpg` | Firmenwagen vor eingerüstetem Neubau |
 
-Danach noch zwei Handgriffe in `index.html`, Sektion `#referenzen`:
+Nach dem Austausch drei Dinge in `index.html`, Sektion `#referenzen`:
 
-1. **Ortsangabe in die `<figcaption>` ergänzen** — z. B. „Fließestrich, fertig abgezogen — Neubau
-   in Düren". Die Bildunterschriften sind bewusst ohne Ort formuliert, weil erfundene Ortsangaben
-   schlimmer sind als gar keine. Echte Orte sind ein realer Hebel für die lokale Sichtbarkeit.
-2. **`width`/`height` auf die tatsächlichen Pixelmaße setzen**, damit beim Laden nichts springt.
+1. **`width`/`height`** auf die tatsächlichen Pixelmaße setzen, damit beim Laden nichts springt
+2. **Versionsstempel `?v=` hochzählen**, sonst zeigen Bestandsbesucher weiter die alten Bilder
+3. **Ortsangabe in die `<figcaption>`** ergänzen, z. B. „Fließestrich — Neubau in Düren".
+   Die Unterschriften sind bewusst ohne Ort formuliert; erfundene Orte wären schlechter als keine.
+   Echte Orte sind ein realer Hebel für die lokale Sichtbarkeit.
 
-Bilder vorher auf max. 1600 px Breite verkleinern und als JPEG (Qualität ~80) oder WebP
-speichern. Am besten die Originale vom Rechner oder Handy verwenden — die Fassungen im
-Google-Profil sind komprimiert und beschnitten.
+Originale auf max. 1600 px Breite verkleinern und als JPEG (Qualität ~80) oder WebP speichern.
+Dann lässt sich auch `minmax(190px, 1fr)` in `.gallery` wieder auf größere Kacheln anheben.
 
 ### 5. Google-Unternehmensprofil aktualisieren
 

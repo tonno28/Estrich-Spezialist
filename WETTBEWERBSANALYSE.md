@@ -67,7 +67,7 @@ genau das, was die Bestandskunden bereits unabhängig bestätigen.
 
 | # | Fehler in der Branche | Unsere Gegenmaßnahme |
 |---|---|---|
-| 1 | **Kein Preisrahmen, keine Orientierung.** Besucher wissen nach dem Seitenbesuch nicht, was es kostet — häufigster Frust-Punkt bei Handwerker-Websites | Estrich-Rechner auf der Startseite: m² + Stärke → Materialbedarf, Aufbauhöhe und realistische Trockenzeit, direkt ins Anfrageformular übernehmbar |
+| 1 | **Kein Preisrahmen, keine Orientierung.** Besucher wissen nach dem Seitenbesuch nicht, was es kostet — häufigster Frust-Punkt bei Handwerker-Websites | FAQ beantwortet die Preisfrage offen und erklärt, wovon der Preis abhängt, statt sie zu umgehen; dazu Festpreis-Zusage und Angebot binnen 24 Stunden |
 | 2 | **Telefonnummer erst im Footer**, nicht klickbar | Nummer im Header, im Hero, in jeder CTA-Sektion und in einer fixen Mobile-Leiste — überall als `tel:`-Link |
 | 3 | **Kein oder unvollständiges Impressum, fehlende Datenschutzerklärung** — Abmahnrisiko und Vertrauensverlust | Impressum + Datenschutz als eigene Seiten angelegt, mit klar markierten Pflichtfeldern zum Ausfüllen |
 | 4 | **Nicht mobiloptimiert**, obwohl die Mehrheit der Handwerkersuchen mobil stattfindet | Mobile-First gebaut, Sticky-Anruf-Leiste, alle Touch-Ziele ≥ 44 px |

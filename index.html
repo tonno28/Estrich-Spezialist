@@ -17,8 +17,8 @@
 <meta property="og:url" content="https://www.estrich-spezialist.de/">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="assets/img/favicon.svg?v=20260727" type="image/svg+xml">
-<link rel="stylesheet" href="assets/css/style.css?v=20260727">
+<link rel="icon" href="assets/img/favicon.svg?v=20260727b" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/style.css?v=20260727b">
 </head>
 <body>
 
@@ -39,7 +39,6 @@
       <a href="#leistungen">Leistungen</a>
       <a href="#warum" class="nav-wide">Warum wir</a>
       <a href="#ablauf">Ablauf</a>
-      <a href="#rechner">Rechner</a>
       <a href="#bewertungen">Bewertungen</a>
       <a href="#gebiet" class="nav-wide">Einsatzgebiet</a>
       <a href="#kontakt">Kontakt</a>
@@ -307,73 +306,6 @@
     </div>
   </section>
 
-  <!-- ══════════════ RECHNER ══════════════ -->
-  <section id="rechner" class="section section-tint">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Estrich-Rechner</p>
-        <h2>Materialbedarf und Trockenzeit in 10 Sekunden</h2>
-        <p class="section-lead">
-          Eine erste Orientierung für Ihre Planung — Bedarf, Aufbauhöhe und realistische Wartezeit.
-          Das Ergebnis übernehmen Sie mit einem Klick in die Anfrage.
-        </p>
-      </header>
-
-      <div class="calc">
-        <form class="calc-form" id="calc-form" novalidate>
-          <div class="field">
-            <label for="calc-area">Fläche in m²</label>
-            <input type="number" id="calc-area" min="1" max="10000" step="1" value="80" inputmode="numeric">
-          </div>
-
-          <div class="field">
-            <label for="calc-type">Estrichart</label>
-            <select id="calc-type">
-              <option value="ct" selected>Zementestrich (CT)</option>
-              <option value="caf">Fließestrich / Calciumsulfat (CAF)</option>
-              <option value="heiz">Heizestrich (Zement)</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="calc-thick">Estrichdicke: <output id="calc-thick-out">60</output> mm</label>
-            <input type="range" id="calc-thick" min="30" max="120" step="5" value="60">
-            <p class="hint" id="calc-hint">Wohnraum ohne Heizung: ca. 45–50 mm · mit Heizung: 65–75 mm · Garage: 80–120 mm</p>
-          </div>
-
-          <div class="field">
-            <label for="calc-use">Nutzung</label>
-            <select id="calc-use">
-              <option value="wohnen" selected>Wohnraum</option>
-              <option value="keller">Keller / Nebenraum</option>
-              <option value="garage">Garage / Einfahrt</option>
-              <option value="gewerbe">Gewerbe / Halle</option>
-            </select>
-          </div>
-        </form>
-
-        <aside class="calc-out" aria-live="polite">
-          <h3>Ihr Ergebnis</h3>
-          <dl class="calc-results">
-            <div><dt>Estrichvolumen</dt><dd><b id="r-vol">4,8</b> m³</dd></div>
-            <div><dt>Materialgewicht (ca.)</dt><dd><b id="r-weight">10,1</b> t</dd></div>
-            <div><dt>Randdämmstreifen (ca.)</dt><dd><b id="r-edge">36</b> lfm</dd></div>
-            <div><dt>Begehbar nach ca.</dt><dd><b id="r-walk">3</b> Tagen</dd></div>
-            <div class="highlight"><dt>Belegreif nach ca.</dt><dd><b id="r-dry">6</b> Wochen</dd></div>
-          </dl>
-          <p class="calc-note" id="calc-note">
-            Richtwerte für die Planung. Die tatsächliche Belegreife wird vor dem Belegen per
-            CM-Messung bestimmt und hängt von Trocknungsbedingungen und Aufbau ab.
-          </p>
-          <button class="btn btn-primary btn-block" type="button" id="calc-to-form">
-            Ergebnis in die Anfrage übernehmen
-            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-          </button>
-        </aside>
-      </div>
-    </div>
-  </section>
-
   <!-- ══════════════ BEWERTUNGEN ══════════════ -->
   <section id="bewertungen" class="section">
     <div class="wrap">
@@ -441,64 +373,61 @@
         <p class="kicker">Referenzen</p>
         <h2>Aus unseren Baustellen</h2>
         <p class="section-lead">
-          Echte Flächen, echte Projekte — keine Stockfotos.
+          Echte Flächen aus unseren Baustellen — keine Stockfotos.
         </p>
       </header>
 
-      <!--
-        FOTOS EINSETZEN:
-        Die Dateien einfach unter genau diesen Namen in assets/img/ ablegen — mehr ist
-        nicht zu tun. Solange eine Datei fehlt, zeigt die Kachel automatisch den
-        Platzhalter; sobald sie da ist, erscheint das Foto.
-
-        Danach nur noch zwei Dinge von Hand:
-        1. Ortsangabe in die <figcaption> ergänzen (z. B. „— Neubau in Düren").
-           Das ist ein echter Hebel für die lokale Sichtbarkeit.
-        2. width/height auf die tatsächlichen Pixelmaße setzen, damit beim Laden
-           nichts springt.
-      -->
+      <!-- Fotos aus eigenen Baustellen. Neue Bilder einfach hier ergänzen;
+           bei Austausch den Versionsstempel ?v= hochzählen, damit Besucher
+           nicht die alte Fassung aus dem Cache sehen. -->
       <div class="gallery">
 
         <figure class="shot">
-          <span class="ph ph-a" aria-hidden="true"></span>
-          <img src="assets/img/fliessestrich-wohnraum.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
-               alt="Fertig verlegter, geschliffener Fließestrich in einem Wohnraum, blauer Randdämmstreifen an den Wänden">
-          <figcaption>Fließestrich, fertig abgezogen — Randdämmstreifen sauber gesetzt</figcaption>
+          <img src="assets/img/fliessestrich-spiegelnde-flaeche.jpg?v=20260727b" width="141" height="101" loading="lazy"
+               alt="Frisch eingebrachter Fließestrich, spiegelglatte Oberfläche in einem Wohnraum">
+          <figcaption>Fließestrich, spiegelglatt abgezogen</figcaption>
         </figure>
 
         <figure class="shot">
-          <span class="ph ph-b" aria-hidden="true"></span>
-          <img src="assets/img/heizestrich-fussbodenheizung.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
-               alt="Fußbodenheizung mit verlegten Heizrohren, vorbereitet für den Heizestrich">
-          <figcaption>Heizestrich: Rohre verlegt, bereit für den Verguss</figcaption>
+          <img src="assets/img/fussbodenheizung-heizrohre.jpg?v=20260727b" width="141" height="141" loading="lazy"
+               alt="Verlegte Rohre einer Fußbodenheizung in Schneckenform, bereit für den Estrich">
+          <figcaption>Fußbodenheizung — Rohre verlegt, bereit für den Verguss</figcaption>
         </figure>
 
         <figure class="shot">
-          <span class="ph ph-c" aria-hidden="true"></span>
-          <img src="assets/img/daemmschuettung-altbau.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
-               alt="Ausgeglichene Dämmschüttung auf dem Rohboden eines Altbauzimmers vor dem Estricheinbau">
-          <figcaption>Dämmschüttung im Altbau — Untergrund ausgeglichen und gedämmt</figcaption>
+          <img src="assets/img/estrich-flur-randdaemmstreifen.jpg?v=20260727b" width="141" height="141" loading="lazy"
+               alt="Fertiger Estrich in einem Flur, blaue Randdämmstreifen an den Wänden">
+          <figcaption>Flur mit sauber gesetztem Randdämmstreifen</figcaption>
         </figure>
 
         <figure class="shot">
-          <span class="ph ph-d" aria-hidden="true"></span>
-          <img src="assets/img/estrich-garage.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
-               alt="Fertiger Estrich in einer Garage im Rohbau, Blick zum Garagentor">
-          <figcaption>Garage: belastbare Fläche, eben bis in die Ecken</figcaption>
+          <img src="assets/img/estrich-rohbau-wohnraum.jpg?v=20260727b" width="200" height="200" loading="lazy"
+               alt="Fertige Estrichfläche in einem Rohbau mit Blick durch die Tür in den Nebenraum">
+          <figcaption>Wohnraum im Rohbau — Fläche fertig abgezogen</figcaption>
         </figure>
 
         <figure class="shot">
-          <span class="ph ph-e" aria-hidden="true"></span>
-          <img src="assets/img/estrich-terrasse-carport.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
-               alt="Fertige Estrichfläche unter einem Carport mit Stahlkonstruktion, Blick über die Fläche zum Sichtschutz">
-          <figcaption>Terrasse unter Carport — Außenfläche mit Gefälle</figcaption>
+          <img src="assets/img/estrich-dachgeschoss.jpg?v=20260727b" width="141" height="176" loading="lazy"
+               alt="Estrichfläche unter einer sichtbaren Holzbalkendecke im Dachgeschoss">
+          <figcaption>Dachgeschoss unter Holzbalkendecke</figcaption>
         </figure>
 
         <figure class="shot">
-          <span class="ph ph-f" aria-hidden="true"></span>
-          <img src="assets/img/estrichpumpe-team.jpg" width="1200" height="900" loading="lazy" onerror="this.remove()"
-               alt="Estrichpumpe und Firmenfahrzeug des Estrich-Spezialist vor einer Baustelle">
-          <figcaption>Eigene Technik, eigenes Team — direkt an der Baustelle</figcaption>
+          <img src="assets/img/estrich-garage.jpg?v=20260727b" width="141" height="141" loading="lazy"
+               alt="Fertiger Estrich in einer Garage mit Klinkerfassade, Blick durch das offene Tor">
+          <figcaption>Garage — belastbare Fläche bis in die Ecken</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <img src="assets/img/estrichpumpe-anhaenger.jpg?v=20260727b" width="141" height="101" loading="lazy"
+               alt="Estrichpumpe auf dem Anhänger des Estrich-Spezialist an der Baustelle">
+          <figcaption>Eigene Pumpe, direkt an der Baustelle</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <img src="assets/img/firmenwagen-baustelle.jpg?v=20260727b" width="141" height="101" loading="lazy"
+               alt="Firmenwagen des Estrich-Spezialist vor einem eingerüsteten Neubau">
+          <figcaption>Eigenes Team, eigene Technik</figcaption>
         </figure>
 
       </div>
@@ -557,7 +486,7 @@
       <div class="faq">
         <details>
           <summary>Was kostet Estrich pro m²?</summary>
-          <div><p>Das hängt von Estrichart, Dicke, Dämmaufbau, Fläche und Zugänglichkeit der Baustelle ab — eine seriöse Zahl ohne Kenntnis der Baustelle wäre geraten. Deshalb schauen wir uns die Fläche kostenlos an und geben Ihnen danach einen Festpreis, in der Regel innerhalb von 24 Stunden. Für eine erste Mengen-Orientierung nutzen Sie unseren <a href="#rechner">Estrich-Rechner</a>.</p></div>
+          <div><p>Das hängt von Estrichart, Dicke, Dämmaufbau, Fläche und Zugänglichkeit der Baustelle ab — eine seriöse Zahl ohne Kenntnis der Baustelle wäre geraten. Deshalb schauen wir uns die Fläche kostenlos an und geben Ihnen danach einen Festpreis, in der Regel innerhalb von 24 Stunden.</p></div>
         </details>
 
         <details>
@@ -765,7 +694,6 @@
       <a href="#bewertungen">Bewertungen</a>
       <a href="#gebiet">Einsatzgebiet</a>
       <a href="#faq">Häufige Fragen</a>
-      <a href="#rechner">Estrich-Rechner</a>
     </nav>
 
     <div class="footer-col">
@@ -895,6 +823,6 @@
 }
 </script>
 
-<script src="assets/js/main.js?v=20260727" defer></script>
+<script src="assets/js/main.js?v=20260727b" defer></script>
 </body>
 </html>
