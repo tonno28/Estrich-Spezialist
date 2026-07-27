@@ -65,6 +65,8 @@
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="wrap hero-inner">
 
+     <div class="hero-text">
+
       <p class="eyebrow">
         <span class="dot"></span>
         Fachbetrieb für Estricharbeiten · Langerwehe &amp; Umgebung
@@ -88,6 +90,150 @@
           0170 7753751
         </a>
       </div>
+
+     </div><!-- /hero-text -->
+
+     <!-- ── Bodenaufbau-Animation ──────────────────────────────
+          Querschnitt durch den Fußboden, der sich Schicht für
+          Schicht aufbaut. Zeigt in wenigen Sekunden, was der
+          Kunde später nie wieder zu sehen bekommt.
+          ────────────────────────────────────────────────────── -->
+     <figure class="buildup" id="buildup" data-stage="0">
+
+       <svg class="buildup-svg" viewBox="0 0 420 250" role="img"
+            aria-labelledby="buildup-title buildup-desc">
+         <title id="buildup-title">Aufbau eines Fußbodens im Querschnitt</title>
+         <desc id="buildup-desc">Von der Rohdecke über Dämmung, Randdämmstreifen, Folie und
+           Fußbodenheizung bis zum fertig geglätteten Estrich.</desc>
+
+         <defs>
+           <!-- Estrich wird von links nach rechts eingebracht -->
+           <clipPath id="bu-pour">
+             <rect class="bu-pourRect" x="26" y="80" width="394" height="70"/>
+           </clipPath>
+           <clipPath id="bu-frame">
+             <rect x="0" y="0" width="420" height="250" rx="14"/>
+           </clipPath>
+
+           <linearGradient id="bu-screed" x1="0" y1="0" x2="0" y2="1">
+             <stop offset="0"   stop-color="#c8ccd2"/>
+             <stop offset="0.5" stop-color="#b3b8bf"/>
+             <stop offset="1"   stop-color="#a2a8b0"/>
+           </linearGradient>
+
+           <linearGradient id="bu-polish" x1="0" y1="0" x2="0" y2="1">
+             <stop offset="0"    stop-color="#eef1f5"/>
+             <stop offset="0.18" stop-color="#d2d7de"/>
+             <stop offset="1"    stop-color="#a8aeb6"/>
+           </linearGradient>
+
+           <linearGradient id="bu-sheen" x1="0" y1="0" x2="1" y2="0">
+             <stop offset="0"   stop-color="#fff" stop-opacity="0"/>
+             <stop offset="0.5" stop-color="#fff" stop-opacity=".85"/>
+             <stop offset="1"   stop-color="#fff" stop-opacity="0"/>
+           </linearGradient>
+
+           <linearGradient id="bu-slab" x1="0" y1="0" x2="0" y2="1">
+             <stop offset="0" stop-color="#7c848e"/>
+             <stop offset="1" stop-color="#5d646d"/>
+           </linearGradient>
+
+           <pattern id="bu-grit" width="14" height="14" patternUnits="userSpaceOnUse">
+             <circle cx="3"  cy="4"  r="1.4" fill="#fff" opacity=".16"/>
+             <circle cx="10" cy="9"  r="1"   fill="#000" opacity=".16"/>
+             <circle cx="7"  cy="12" r="1.1" fill="#fff" opacity=".1"/>
+           </pattern>
+         </defs>
+
+         <g clip-path="url(#bu-frame)">
+
+           <!-- Hintergrund / Raumluft -->
+           <rect x="0" y="0" width="420" height="250" fill="#eceff3"/>
+
+           <!-- 0 · Rohdecke -->
+           <g data-step="0" class="bu-layer">
+             <rect x="26" y="186" width="394" height="64" fill="url(#bu-slab)"/>
+             <rect x="26" y="186" width="394" height="64" fill="url(#bu-grit)"/>
+             <rect x="26" y="186" width="394" height="3" fill="#4b525b"/>
+           </g>
+
+           <!-- 1 · Dämmung -->
+           <g data-step="1" class="bu-layer bu-rise">
+             <rect x="26" y="148" width="394" height="38" fill="#f2efe2"/>
+             <rect x="26" y="148" width="394" height="38" fill="url(#bu-grit)" opacity=".5"/>
+             <g stroke="#d8d2bc" stroke-width="1.5">
+               <path d="M124 148v38M222 148v38M320 148v38"/>
+             </g>
+           </g>
+
+           <!-- 2 · Folie (der Randdämmstreifen folgt weiter unten, über dem Estrich) -->
+           <g data-step="2" class="bu-layer">
+             <rect class="bu-foil" x="26" y="144" width="394" height="4" fill="#8ab4f8" opacity=".55"/>
+           </g>
+
+           <!-- 3 · Fußbodenheizung -->
+           <g data-step="3" class="bu-layer bu-pipes" fill="#d9482b">
+             <circle cx="60"  cy="133" r="9" style="--d:0ms"/>
+             <circle cx="106" cy="133" r="9" style="--d:70ms"/>
+             <circle cx="152" cy="133" r="9" style="--d:140ms"/>
+             <circle cx="198" cy="133" r="9" style="--d:210ms"/>
+             <circle cx="244" cy="133" r="9" style="--d:280ms"/>
+             <circle cx="290" cy="133" r="9" style="--d:350ms"/>
+             <circle cx="336" cy="133" r="9" style="--d:420ms"/>
+             <circle cx="382" cy="133" r="9" style="--d:490ms"/>
+             <g fill="#fff" opacity=".45">
+               <circle cx="57"  cy="129" r="2.6"/><circle cx="103" cy="129" r="2.6"/>
+               <circle cx="149" cy="129" r="2.6"/><circle cx="195" cy="129" r="2.6"/>
+               <circle cx="241" cy="129" r="2.6"/><circle cx="287" cy="129" r="2.6"/>
+               <circle cx="333" cy="129" r="2.6"/><circle cx="379" cy="129" r="2.6"/>
+             </g>
+           </g>
+
+           <!-- 4 · Estrich einbringen -->
+           <g data-step="4" class="bu-layer">
+             <g clip-path="url(#bu-pour)">
+               <rect class="bu-screed" x="26" y="86" width="394" height="58" fill="url(#bu-screed)"/>
+               <rect class="bu-screed-top" x="26" y="86" width="394" height="2.5" fill="#dfe3e8"/>
+             </g>
+           </g>
+
+           <!-- 5 · Geglättet und fertig -->
+           <g data-step="5" class="bu-layer bu-finish">
+             <rect x="26" y="86" width="394" height="58" fill="url(#bu-polish)"/>
+             <rect x="26" y="86" width="394" height="2" fill="#fff" opacity=".9"/>
+             <!-- Spiegelung des Fensterlichts auf der fertigen Fläche -->
+             <rect class="bu-sheen" x="-150" y="86" width="130" height="58" fill="url(#bu-sheen)"/>
+           </g>
+
+           <!-- 2 · Randdämmstreifen — steht zwischen Wand und Estrich und bleibt
+                deshalb bis zuletzt sichtbar. Wird nach dem Estrich gezeichnet,
+                sonst würde ihn die Fläche verdecken. -->
+           <g data-step="2" class="bu-layer">
+             <rect class="bu-edge" x="26" y="80" width="10" height="106" fill="#3b82f6"/>
+             <rect class="bu-edge" x="26" y="80" width="3" height="106" fill="#fff" opacity=".22"/>
+           </g>
+
+           <!-- Wand steht immer -->
+           <rect x="0" y="0" width="26" height="250" fill="#39404a"/>
+           <rect x="0" y="0" width="26" height="250" fill="url(#bu-grit)" opacity=".6"/>
+           <rect x="26" y="0" width="2" height="250" fill="#2b313a" opacity=".5"/>
+
+         </g>
+       </svg>
+
+       <figcaption class="buildup-cap">
+         <ol>
+           <li class="is-on"><b>Rohdecke</b> — der Untergrund, wie wir ihn vorfinden</li>
+           <li><b>Dämmung</b> — Wärme- und Trittschalldämmung, sauber gestoßen</li>
+           <li><b>Randdämmstreifen &amp; Folie</b> — damit der Estrich frei arbeiten kann</li>
+           <li><b>Fußbodenheizung</b> — Rohre verlegt und fixiert</li>
+           <li><b>Estrich</b> — eingebracht, abgezogen, in einem Zug</li>
+           <li><b>Fertig</b> — eben, tragfähig, bereit für Ihren Belag</li>
+         </ol>
+         <div class="buildup-dots" role="tablist" aria-label="Schritte des Bodenaufbaus"></div>
+       </figcaption>
+
+     </figure>
 
       <ul class="hero-chips">
         <li>
